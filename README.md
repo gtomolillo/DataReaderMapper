@@ -33,7 +33,7 @@ using (var connection = new SqlConnection("MyConnectionString"))
 	{
 	  	using (var reader = command.ExecuteReader())
 	  	{
-  			var result = mapper.Map<Tuple<MyObject1, MyObject2>>(reader);
+			var result = mapper.Map<Tuple<MyObject1, MyObject2>>(reader);
       			var myObject1 = result.Item1;
       			var myObject2 = result.Item2;
 	  	}
