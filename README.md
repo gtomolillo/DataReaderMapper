@@ -5,7 +5,7 @@ Use AutoMapper to Map an IDataReader to an object
 ## Configuration
 
 ```csharp
-MapperRegistry.Mappers.Insert(0, new DataReaderMapper());
+MapperRegistry.Mappers.Insert(0, new DataReaderObjectMapper());
 ```
 
 ## Usage
