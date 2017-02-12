@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColumnNameAttribute.cs" />
-    <Compile Include="DataReaderMapper.cs" />
+    <Compile Include="DataReaderObjectMapper.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

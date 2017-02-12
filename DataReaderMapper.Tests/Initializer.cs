@@ -9,7 +9,7 @@ namespace DataReaderMapper.Tests
 		[AssemblyInitialize]
 		public static void Init(TestContext context)
 		{
-			MapperRegistry.Mappers.Insert(0, new DataReaderMapper());
+			MapperRegistry.Mappers.Insert(0, new DataReaderObjectMapper());
 		}
 	}
 }

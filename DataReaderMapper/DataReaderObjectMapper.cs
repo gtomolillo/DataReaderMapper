@@ -12,17 +12,17 @@ using DataReaderMapper.Helpers;
 
 namespace DataReaderMapper
 {
-	public class DataReaderMapper : IObjectMapper
+	public class DataReaderObjectMapper : IObjectMapper
 	{
-		private static readonly MethodInfo MapMethod = typeof(DataReaderMapper).GetMethod(nameof(Map),
+		private static readonly MethodInfo MapMethod = typeof(DataReaderObjectMapper).GetMethod(nameof(Map),
 			BindingFlags.Instance | BindingFlags.NonPublic);
-		private static readonly MethodInfo MapCollectionMethod = typeof(DataReaderMapper).GetMethod(nameof(MapCollection),
+		private static readonly MethodInfo MapCollectionMethod = typeof(DataReaderObjectMapper).GetMethod(nameof(MapCollection),
 			BindingFlags.Instance | BindingFlags.NonPublic);
-		private static readonly MethodInfo MapObjectMethod = typeof(DataReaderMapper).GetMethod(nameof(MapObject),
+		private static readonly MethodInfo MapObjectMethod = typeof(DataReaderObjectMapper).GetMethod(nameof(MapObject),
 			BindingFlags.Instance | BindingFlags.NonPublic);
-		private static readonly MethodInfo MapGenericListMethod = typeof(DataReaderMapper).GetMethod(nameof(MapGenericList),
+		private static readonly MethodInfo MapGenericListMethod = typeof(DataReaderObjectMapper).GetMethod(nameof(MapGenericList),
 			BindingFlags.Instance | BindingFlags.NonPublic);
-		private static readonly MethodInfo MapGenericCollectionMethod = typeof(DataReaderMapper).GetMethod(nameof(MapGenericCollection),
+		private static readonly MethodInfo MapGenericCollectionMethod = typeof(DataReaderObjectMapper).GetMethod(nameof(MapGenericCollection),
 			BindingFlags.Instance | BindingFlags.NonPublic);
 
 		private static readonly Type DataRecordType = typeof(IDataReader);
