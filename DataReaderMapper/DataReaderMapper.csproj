@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DataReaderMapper</RootNamespace>
-    <AssemblyName>AutoMapper.DataReaderMapper</AssemblyName>
+    <AssemblyName>DataReaderMapper</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
