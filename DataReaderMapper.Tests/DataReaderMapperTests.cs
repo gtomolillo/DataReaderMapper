@@ -19,7 +19,7 @@ namespace DataReaderMapper.Tests
 		{
 			_mapper = new Mapper(new MapperConfiguration(config =>
 			{
-				//config.CreateMissingTypeMaps = true;
+				config.Mappers.Insert(0, new DataReaderObjectMapper());
 			}));
 		}
 

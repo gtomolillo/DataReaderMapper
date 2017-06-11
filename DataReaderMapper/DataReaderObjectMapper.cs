@@ -41,41 +41,35 @@ namespace DataReaderMapper
 			return DataRecordType.IsAssignableFrom(context.SourceType);
 		}
 
-		public Expression MapExpression(TypeMapRegistry typeMapRegistry, IConfigurationProvider configurationProvider,
-			PropertyMap propertyMap, Expression sourceExpression, Expression destExpression, Expression contextExpression)
+		public Expression MapExpression(IConfigurationProvider configurationProvider, ProfileMap profileMap, PropertyMap propertyMap,
+			Expression sourceExpression, Expression destExpression, Expression contextExpression)
 		{
 			return Expression.Call(Expression.Constant(this), MapMethod.MakeGenericMethod(destExpression.Type), sourceExpression, destExpression,
-				contextExpression);
+				contextExpression, Expression.Constant(profileMap));
 		}
 
 		[SuppressMessage("ReSharper", "ConvertIfStatementToNullCoalescingExpression")]
 		protected virtual TDestination Map<TDestination>(IDataReader source, TDestination destination,
-			ResolutionContext context)
+			ResolutionContext context, ProfileMap configuration)
 		{
 			var lookup = TypeLookup.Lookup(typeof(TDestination));
 
 			if (lookup.IsTuple)
 			{
-				return MapTuple(source, destination, context);
+				return MapTuple(source, destination, context, configuration);
 			}
 			if (lookup.IsCollection)
 			{
-				return MapCollection(source, destination, context);
+				return MapCollection(source, destination, context, configuration);
 			}
-			if (source.Read())
-			{
-				return MapObject(source, destination, context);
-			}
-			if (destination == null)
-			{
-				destination = (TDestination)context.Mapper.ServiceCtor.Invoke(typeof(TDestination));
-			}
-
-			return destination;
+			return
+				source.Read()
+					? MapObject(source, destination, context, configuration)
+					: destination;
 		}
 
 		protected virtual TDestination MapTuple<TDestination>(IDataReader source, TDestination destination,
-			ResolutionContext context)
+			ResolutionContext context, ProfileMap configuration)
 		{
 			var lookup = TypeLookup.Lookup(typeof(TDestination));
 			var innerLookups = lookup.GenericArguments;
@@ -89,12 +83,12 @@ namespace DataReaderMapper
 				if (innerLookup.IsCollection)
 				{
 					var method = MapCollectionMethod.MakeGenericMethod(innerLookup.Type);
-					arguments[index] = method.Invoke(this, new object[] { source, null, context });
+					arguments[index] = method.Invoke(this, new object[] { source, null, context, configuration });
 				}
 				else if (source.Read())
 				{
 					var method = MapObjectMethod.MakeGenericMethod(innerLookup.Type);
-					arguments[index] = method.Invoke(this, new object[] { source, null, context, null });
+					arguments[index] = method.Invoke(this, new object[] { source, null, context, configuration, null });
 				}
 
 				index++;
@@ -105,13 +99,13 @@ namespace DataReaderMapper
 
 		[SuppressMessage("ReSharper", "ConvertIfStatementToNullCoalescingExpression")]
 		protected virtual TDestination MapCollection<TDestination>(IDataReader source, TDestination destination,
-			ResolutionContext context)
+			ResolutionContext context, ProfileMap configuration)
 		{
 			var type = typeof(TDestination);
 			if (type.IsArray)
 			{
 				var method = MapGenericListMethod.MakeGenericMethod(type.GetElementType());
-				var list = (ICollection)method.Invoke(this, new object[] { source, null, context });
+				var list = (ICollection)method.Invoke(this, new object[] { source, null, context, configuration });
 
 				var array = Array.CreateInstance(type.GetElementType(), list.Count);
 				list.CopyTo(array, 0);
@@ -131,13 +125,13 @@ namespace DataReaderMapper
 				if (lookup.IsReadOnly)
 				{
 					var method = MapGenericListMethod.MakeGenericMethod(lookup.GenericArguments[0].Type);
-					var list = (ICollection)method.Invoke(this, new object[] { source, null, context });
+					var list = (ICollection)method.Invoke(this, new object[] { source, null, context, configuration });
 					return (TDestination)concreteType.GetConstructors()[0].Invoke(new object[] { list });
 				}
 				else
 				{
 					var method = MapGenericCollectionMethod.MakeGenericMethod(concreteType, type.GenericTypeArguments[0]);
-					return (TDestination)method.Invoke(this, new object[] { source, null, context });
+					return (TDestination)method.Invoke(this, new object[] { source, null, context, configuration });
 				}
 			}
 
@@ -145,7 +139,7 @@ namespace DataReaderMapper
 			if (lookup.FindElementType(out elementType))
 			{
 				var method = MapGenericCollectionMethod.MakeGenericMethod(type, elementType);
-				return (TDestination)method.Invoke(this, new object[] { source, null, context });
+				return (TDestination)method.Invoke(this, new object[] { source, null, context, configuration });
 			}
 
 			if (destination == null)
@@ -156,13 +150,13 @@ namespace DataReaderMapper
 		}
 
 		protected virtual List<TElement> MapGenericList<TElement>(IDataReader source, List<TElement> destination,
-			ResolutionContext context)
+			ResolutionContext context, ProfileMap configuration)
 		{
-			return MapGenericCollection<List<TElement>, TElement>(source, null, context);
+			return MapGenericCollection<List<TElement>, TElement>(source, null, context, configuration);
 		}
 
 		protected virtual T MapGenericCollection<T, TElement>(IDataReader source, T destination,
-			ResolutionContext context) where T: ICollection<TElement>, new()
+			ResolutionContext context, ProfileMap configuration) where T: ICollection<TElement>, new()
 		{
 			if (destination == null)
 			{
@@ -172,20 +166,20 @@ namespace DataReaderMapper
 			var fields = new HashSet<string>(Enumerable.Range(0, source.FieldCount).Select(source.GetName));
 			while (source.Read())
 			{
-				destination.Add(MapObject(source, default(TElement), context, fields));
+				destination.Add(MapObject(source, default(TElement), context, configuration, fields));
 			}
 
 			return destination;
 		}
 
 		protected virtual TDestination MapObject<TDestination>(IDataReader source, TDestination destination,
-			ResolutionContext context, HashSet<string> fields = null)
+			ResolutionContext context, ProfileMap configuration, HashSet<string> fields = null)
 		{
 			if (destination == null)
 			{
 				destination = (TDestination)context.Mapper.ServiceCtor.Invoke(typeof(TDestination));
 			}
-			var typeDetails = context.ConfigurationProvider.Configuration.CreateTypeDetails(typeof(TDestination));
+			var typeDetails = configuration.CreateTypeDetails(typeof(TDestination));
 			var lookup = TypeLookup.Lookup(typeof(TDestination));
 			fields = fields ?? new HashSet<string>(Enumerable.Range(0, source.FieldCount).Select(source.GetName));
 
