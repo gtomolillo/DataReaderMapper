@@ -36,12 +36,12 @@ namespace DataReaderMapper
 			=> _isTuple ?? (_isTuple = Type.IsTuple()).Value;
 
 		public TypeLookup[] GenericArguments
-			=> _genericArguments ?? (_genericArguments = !Type.GetTypeInfo().IsGenericType
+			=> _genericArguments ?? (_genericArguments = !Type.IsGenericType
 				? new TypeLookup[0]
 				: Type.GetGenericArguments().Select(Lookup).ToArray());
 
 		public Type GenericType
-			=> _genericType ?? (_genericType = Type.GetTypeInfo().IsGenericType ? Type.GetGenericTypeDefinition() : Type);
+			=> _genericType ?? (_genericType = Type.IsGenericType ? Type.GetGenericTypeDefinition() : Type);
 
 		public Type ConcreteType { get; set; }
 

@@ -117,7 +117,7 @@ namespace DataReaderMapper
 			if (lookup.IsDeclaredAsCollection)
 			{
 				var concreteType = lookup.ConcreteType ?? (
-					lookup.ConcreteType = type.GetTypeInfo().IsInterface
+					lookup.ConcreteType = type.IsInterface
 						? ListMappings[lookup.GenericType].MakeGenericType(lookup.GenericArguments[0].Type)
 						: type
 				);

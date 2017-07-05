@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataReaderMapper", "DataReaderMapper\DataReaderMapper.csproj", "{C1715A4B-F4B2-46E8-86ED-7B39899D507A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataReaderMapper", "DataReaderMapper\DataReaderMapper.csproj", "{7224214D-0FC3-4451-A6D0-0C5431C7D348}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataReaderMapper.Tests", "DataReaderMapper.Tests\DataReaderMapper.Tests.csproj", "{55BA86F7-5A74-4F53-A604-BB311A7F7974}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataReaderMapper.Tests", "DataReaderMapper.Tests\DataReaderMapper.Tests.csproj", "{282736A8-5092-4EA9-8CD1-C8D32EBB08AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C1715A4B-F4B2-46E8-86ED-7B39899D507A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C1715A4B-F4B2-46E8-86ED-7B39899D507A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C1715A4B-F4B2-46E8-86ED-7B39899D507A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C1715A4B-F4B2-46E8-86ED-7B39899D507A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{55BA86F7-5A74-4F53-A604-BB311A7F7974}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55BA86F7-5A74-4F53-A604-BB311A7F7974}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55BA86F7-5A74-4F53-A604-BB311A7F7974}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55BA86F7-5A74-4F53-A604-BB311A7F7974}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7224214D-0FC3-4451-A6D0-0C5431C7D348}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7224214D-0FC3-4451-A6D0-0C5431C7D348}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7224214D-0FC3-4451-A6D0-0C5431C7D348}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7224214D-0FC3-4451-A6D0-0C5431C7D348}.Release|Any CPU.Build.0 = Release|Any CPU
+		{282736A8-5092-4EA9-8CD1-C8D32EBB08AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{282736A8-5092-4EA9-8CD1-C8D32EBB08AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{282736A8-5092-4EA9-8CD1-C8D32EBB08AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{282736A8-5092-4EA9-8CD1-C8D32EBB08AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

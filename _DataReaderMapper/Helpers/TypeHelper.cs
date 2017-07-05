@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
 
 namespace DataReaderMapper.Helpers
 {
@@ -32,12 +31,12 @@ namespace DataReaderMapper.Helpers
 
 			do
 			{
-				if (type.GetTypeInfo().IsGenericType && TupleTypes.Contains(type.GetGenericTypeDefinition()))
+				if (type.IsGenericType && TupleTypes.Contains(type.GetGenericTypeDefinition()))
 				{
 					return true;
 				}
 
-				type = type.GetTypeInfo().BaseType;
+				type = type.BaseType;
 			} while (checkBaseTypes && type != null);
 
 			return false;
@@ -73,7 +72,7 @@ namespace DataReaderMapper.Helpers
 
 			do
 			{
-				if (type.GetTypeInfo().IsGenericType && ReadOnlyTypes.Contains(type.GetGenericTypeDefinition()))
+				if (type.IsGenericType && ReadOnlyTypes.Contains(type.GetGenericTypeDefinition()))
 				{
 					return true;
 				}
@@ -82,14 +81,14 @@ namespace DataReaderMapper.Helpers
 				{
 					foreach (var interfaceType in type.GetInterfaces())
 					{
-						if (interfaceType.GetTypeInfo().IsGenericType && ReadOnlyTypes.Contains(interfaceType.GetGenericTypeDefinition()))
+						if (interfaceType.IsGenericType && ReadOnlyTypes.Contains(interfaceType.GetGenericTypeDefinition()))
 						{
 							return true;
 						}
 					}
 				}
 
-				type = type.GetTypeInfo().BaseType;
+				type = type.BaseType;
 			} while (type != null && checkBaseTypes);
 
 			return false;
@@ -118,7 +117,7 @@ namespace DataReaderMapper.Helpers
 
 			do
 			{
-				if (type.GetTypeInfo().IsGenericType && matchTypes.Contains(type.GetGenericTypeDefinition()))
+				if (type.IsGenericType && matchTypes.Contains(type.GetGenericTypeDefinition()))
 				{
 					elementType = type.GenericTypeArguments[0];
 					return true;
@@ -126,14 +125,14 @@ namespace DataReaderMapper.Helpers
 
 				foreach (var interfaceType in type.GetInterfaces())
 				{
-					if (interfaceType.GetTypeInfo().IsGenericType && matchTypes.Contains(interfaceType.GetGenericTypeDefinition()))
+					if (interfaceType.IsGenericType && matchTypes.Contains(interfaceType.GetGenericTypeDefinition()))
 					{
 						elementType = interfaceType.GenericTypeArguments[0];
 						return true;
 					}
 				}
 
-				type = type.GetTypeInfo().BaseType;
+				type = type.BaseType;
 			} while (type != null && checkBaseTypes);
 
 			return false;
